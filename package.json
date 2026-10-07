@@ -19,16 +19,7 @@
         "command": "vscode-extension-excel-sample.viewExcelSample",
         "title": "View Excel Sample"
       }
-    ],
-    "menus": {
-      "editor/context": [
-        {
-          "command": "vscode-extension-excel-sample.viewExcelSample",
-          "group": "navigation",
-          "when": "true"
-        }
-      ]
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
