@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as xlsx from "xlsx";
 import { AssetStorage } from './assets/AssetStorage';
-import { loadExcel } from './lib/excelLoader';
+import { ExcelLoader } from './lib/excelLoader/ExcelLoader';
 
 
 function createIcon(context: vscode.ExtensionContext) {
@@ -25,14 +25,14 @@ export function activate(context: vscode.ExtensionContext) {
 	const disposable = vscode.commands.registerCommand('vscode-extension-excel-sample.viewExcelSample', () => {
 		vscode.window.showInformationMessage('Hello World from vscode-extension-excel-sample!');
 
-		const workbookUri = asset.getUri("dist/assets/excel/sample.xlsx");
-		vscode.window.showInformationMessage(workbookUri.fsPath);
+		const workbookUri = asset.getUri("assets/excel/sample.xlsx");
 
-		const sheet = loadExcel(workbookUri);
-		const html = sheet ? xlsx.utils.sheet_to_html(sheet) : `<h1>Cannot access to "Sample.xlsx"</h1>`;
-		
+		const workBook = ExcelLoader.loadFile(workbookUri);
+		const sheet = workBook ? ExcelLoader.findBySheetName(workBook, "2026年9月") : null;
+		const html = sheet ? xlsx.utils.sheet_to_html(sheet) : `<h1>Cannot access to "sample.xlsx"</h1>`;
+
 		const view = vscode.window.createWebviewPanel(
-			"wev_view_panel",
+			"web_view_panel",
 			"sample.xlsx",
 			{ viewColumn: vscode.ViewColumn.One }
 		);
